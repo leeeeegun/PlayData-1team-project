@@ -22,8 +22,13 @@ public class LoginView {
 
 
 
-        String result = loginDao.Login(id, password);
-        System.out.println(result);
+        try {
+            String result = loginDao.Login(id, password);
+            System.out.println(result);
+        } catch (SQLException e) {
+            System.out.println("데이터베이스 오류가 발생했습니다.");
+            e.printStackTrace();
+        }
 //        if(result == 1){
 //            System.out.println(" 로그인 성공 ");
 //        } else{
