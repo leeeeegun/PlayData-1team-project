@@ -13,7 +13,7 @@ public class PaymentView {
 		
 		System.out.println("=== 결제 화면 ===");
 		System.out.println("선택한 강의:");
-		System.out.println( title + " | 금액: "+ );
+//		System.out.println( title + " | 금액: "+ );
 		
 		System.out.println("총 결제 금액: ");
 		

@@ -24,7 +24,7 @@ public class LoginDao {
             rs = stmt.executeQuery();
             if (rs.next()) {
 
-                UserDTO userDTO = new UserDTO(rs.getString("name"), rs.getString("money"),
+                UserDTO userDTO = new UserDTO(rs.getInt("id"),rs.getString("name"), rs.getInt("money"),
                         rs.getString("grade"));
 
                 return userDTO;  // 로그인 성공

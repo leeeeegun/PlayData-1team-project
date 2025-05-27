@@ -2,6 +2,7 @@ package Controller.landing;
 
 import Controller.lecture.LectureController;
 import Controller.login.LoginView;
+import Controller.payment.PointController;
 import dto.user.UserDTO;
 
 import java.sql.SQLException;
@@ -50,6 +51,7 @@ public class LandingView {
         System.out.println("            플레인프런          ");
         System.out.println();
         System.out.println(" 포인트 : "+userDTO.getMoney()+"   등급 : "+userDTO.getGrade()+"    "+userDTO.getName()+"님");
+        System.out.println(" id : "+userDTO.getId());
         System.out.println();
         System.out.println();
         System.out.println(" 1. 로그아웃         ");
@@ -82,6 +84,7 @@ public class LandingView {
             case 5:
                 break;
             case 6:
+                PointController.PointAdd(userDTO);
                 break;
             case 7:
                 System.out.println("======================================");

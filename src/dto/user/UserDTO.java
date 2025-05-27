@@ -3,15 +3,30 @@ package dto.user;
 public class UserDTO {
 
     private boolean isLogin;
+
+    private int id;
     private String name;
-    private String money;
+    private int money;
     private String grade;
 
-    public UserDTO(String name, String money, String grade) {
+    public UserDTO(int id, String name, int money, String grade) {
+        this.id = id;
         this.name = name;
         this.money = money;
         this.grade = grade;
         isLogin = true;
+    }
+
+    public boolean isLogin() {
+        return isLogin;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -22,11 +37,11 @@ public class UserDTO {
         this.name = name;
     }
 
-    public String getMoney() {
+    public int getMoney() {
         return money;
     }
 
-    public void setMoney(String money) {
+    public void setMoney(int money) {
         this.money = money;
     }
 
