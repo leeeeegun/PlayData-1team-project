@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class DBUtill {
 	
 	static {
-		System.out.println("static 블럭");
+//		System.out.println("static 블럭");
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
