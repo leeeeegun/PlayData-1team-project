@@ -25,7 +25,7 @@ public class DBUtill {
 		String url = "jdbc:mysql://192.168.0.85:3306/playnfrun?serverTimezone=UTC";
 		String user = "playuser";
 		String password = "root";
-		String sql = "select * from customer where id= ? and pass=?";
+
 		
 		try {
 			con = DriverManager.getConnection(url,user,password);
