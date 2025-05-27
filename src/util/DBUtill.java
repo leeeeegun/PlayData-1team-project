@@ -22,10 +22,10 @@ public class DBUtill {
 	
 	public static Connection getConnection() {
 		Connection con = null;
-		String url = "jdbc:mysql://192.168.0.85:3306/shop?serverTimezone=UTC";
-		String user = "shop";
-		String password = "shop";
-		String sql = "select * from customer where id= ? and pass=?";
+		String url = "jdbc:mysql://192.168.0.85:3306/playnfrun?serverTimezone=UTC";
+		String user = "playuser";
+		String password = "root";
+//		String sql = "select * from customer where id= ? and pass=?";
 		
 		try {
 			con = DriverManager.getConnection(url,user,password);
