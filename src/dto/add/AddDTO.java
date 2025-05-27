@@ -51,5 +51,4 @@ public class AddDTO {
 	public void resetDailyCount() {
 		this.count = 0;
 	}
-	
 }

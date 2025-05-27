@@ -16,6 +16,6 @@ public class AddController {
 		
 		System.out.println(add.getContent());
 		System.out.println(add.getTitle());
+		System.out.println(" ▶ 광고 송출 횟수: " + add.getCount());
 	}
 }
-
