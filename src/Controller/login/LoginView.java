@@ -85,10 +85,6 @@ public class LoginView {
 
         try {
             LocalDate birthDate = LocalDate.parse(birth);
-            System.out.println("!!!!!!!!!!!!!!!!!");
-            System.out.println(birthDate);
-            System.out.println(birthDate.getClass().getName());
-            System.out.println("!!!!!!!!!!!!!!!!!");
             JoinDTO joinDTO = new JoinDTO(name, loginId, password, birthDate, phone);
             int result = loginDao.joinUser(joinDTO);
 
