@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.text.ParseException;
 
 import Controller.payment.PaymentView;
@@ -9,7 +10,7 @@ import dto.user.UserDTO;
 
 public class MainBae {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws SQLException, InterruptedException {
 
         //RatingView.insertRating();
         //RatingView.updateRating();

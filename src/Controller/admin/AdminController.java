@@ -1,12 +1,16 @@
 package Controller.admin;
 
+import Controller.landing.LandingView;
 import dao.admin.AdminDAO;
 import dto.admin.DashboardStats;
+import dto.user.UserDTO;
+
+import java.sql.SQLException;
 
 public class AdminController {
 
 
-    public static void dashboard() {
+    public static void dashboard() throws SQLException {
         AdminDAO dao = new AdminDAO();
         DashboardStats stats = dao.getDashboardStats();
 
@@ -25,6 +29,10 @@ public class AdminController {
         System.out.printf("📮 미답변 Q&A 수   : %d개\n", stats.getUnansweredQnaCount());
         System.out.printf("💰 총 결제 금액    : %,d원\n", stats.getTotalSpent());
         System.out.println("========================================");
+
+
+        LandingView.LandingAdmin();
+
     }
 
 

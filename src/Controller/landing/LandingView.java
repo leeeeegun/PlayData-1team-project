@@ -1,5 +1,6 @@
 package Controller.landing;
 
+import Controller.admin.AdminController;
 import Controller.lecture.LectureController;
 import Controller.login.LoginView;
 import Controller.payment.PointController;
@@ -58,7 +59,6 @@ public class LandingView {
         System.out.println("            플레인프런          ");
         System.out.println();
         System.out.println(" 포인트 : "+userDTO.getMoney()+"   등급 : "+userDTO.getGrade()+"    "+userDTO.getName()+"님");
-        System.out.println(" id : "+userDTO.getId());
         System.out.println();
         System.out.println();
         System.out.println(" 1. 로그아웃         ");
@@ -134,7 +134,8 @@ public class LandingView {
         System.out.println(" 0. 대쉬보드         ");
         System.out.println(" 1. Q&A         ");
         System.out.println(" 2. 회원 관리          ");
-        System.out.println(" 3. 종료          ");
+        System.out.println(" 3. 로그아웃          ");
+        System.out.println(" 4. 종료          ");
         System.out.println();
         System.out.println();
         System.out.print(" 선택 :           ");
@@ -144,11 +145,13 @@ public class LandingView {
         System.out.println("======================================");
 
         if(choice == 1){
-            LoginView.login();
+            return;
         } else if(choice == 2){
-            lectureController.LectureCategory();
+            return;
         } else if(choice == 0){
-            LoginView.join();
+            AdminController.dashboard();
+        } else if(choice == 3){
+            LandingNotLogin();
         } else{
             System.out.println("======================================");
             System.out.println("        이용해주셔서 감사합니다.       ");

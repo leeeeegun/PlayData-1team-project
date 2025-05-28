@@ -10,7 +10,6 @@ public class LoginDao {
 
 
     public UserDTO Login(String id, String pass) throws SQLException {
-
         String sql = "SELECT * FROM user WHERE login_id = ? AND password = ?";
         Connection con = null;
         PreparedStatement stmt = null;
@@ -22,11 +21,16 @@ public class LoginDao {
             stmt.setString(1, id);
             stmt.setString(2, pass);
             rs = stmt.executeQuery();
+
             if (rs.next()) {
+                incrementLoginCount(con);
 
-                UserDTO userDTO = new UserDTO(rs.getInt("id"),rs.getString("name"), rs.getInt("money"),
-                        rs.getString("grade"));
-
+                UserDTO userDTO = new UserDTO(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("money"),
+                        rs.getString("grade")
+                );
                 return userDTO;
             } else {
                 return null;
@@ -38,6 +42,22 @@ public class LoginDao {
             DBUtill.close(rs, stmt, con);
         }
     }
+
+    private void incrementLoginCount(Connection con) throws SQLException {
+        String updateSql = "UPDATE userLogin SET login_count = login_count + 1, last_login = NOW() WHERE id = 1";
+        String insertSql = "INSERT INTO userLogin (id, login_count, last_login) VALUES (1, 1, NOW())";
+
+        try (PreparedStatement updateStmt = con.prepareStatement(updateSql)) {
+            int rows = updateStmt.executeUpdate();
+            if (rows == 0) {
+                try (PreparedStatement insertStmt = con.prepareStatement(insertSql)) {
+                    insertStmt.executeUpdate();
+                }
+            }
+        }
+    }
+
+
 
     public int joinUser(JoinDTO user) {
         String sql = "INSERT INTO user (name, login_id, password, birth_date, phone) VALUES (?, ?, ?, ?, ?)";
