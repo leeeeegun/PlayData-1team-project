@@ -22,7 +22,7 @@ public class DBUtill {
 	
 	public static Connection getConnection() {
 		Connection con = null;
-		String url = "jdbc:mysql://localhost:3306/playnfrun?serverTimezone=UTC";
+		String url = "jdbc:mysql://192.168.0.85:3306/playnfrun?serverTimezone=UTC";
 		String user = "playuser";
 		String password = "root";
 
