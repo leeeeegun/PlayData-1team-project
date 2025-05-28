@@ -10,7 +10,9 @@ import java.sql.SQLException;
 
 public class LoginDao {
 
+
     public UserDTO Login(String id, String pass) throws SQLException {
+
         String sql = "SELECT * FROM user WHERE login_id = ? AND password = ?";
         Connection con = null;
         PreparedStatement stmt = null;
@@ -24,7 +26,7 @@ public class LoginDao {
             rs = stmt.executeQuery();
             if (rs.next()) {
 
-                UserDTO userDTO = new UserDTO(rs.getString("name"), rs.getString("money"),
+                UserDTO userDTO = new UserDTO(rs.getInt("id"),rs.getString("name"), rs.getInt("money"),
                         rs.getString("grade"));
 
                 return userDTO;  // 로그인 성공

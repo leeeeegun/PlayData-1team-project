@@ -26,9 +26,7 @@ public class DBUtill {
 		String user = "playuser";
 		String password = "root";
 
-//		String sql = "select * from customer where id= ? and pass=?";
 
-		
 		try {
 			con = DriverManager.getConnection(url,user,password);
 		} catch (SQLException e) {

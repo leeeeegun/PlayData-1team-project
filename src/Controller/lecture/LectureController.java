@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static Controller.searching.SearchingController.searchingController;
+
 
 public class LectureController {
 
@@ -35,6 +37,7 @@ public class LectureController {
 
         switch (choice){
             case 0:
+                searchingController(userDTO);
                 break;
             case 1:
                 getLectures("프로그래밍", userDTO);
@@ -70,6 +73,7 @@ public class LectureController {
         System.out.println("======================================");
         System.out.println();
         System.out.println();
+        System.out.println("0. 검색 하기");
         System.out.println("1. 프로그래밍");
         System.out.println("2. 데이터 분석");
         System.out.println("3. 디자인");
@@ -86,6 +90,9 @@ public class LectureController {
         System.out.println("======================================");
 
         switch (choice){
+            case 0:
+                searchingController();
+                break;
             case 1:
                 getLectures("프로그래밍");
                 break;
@@ -156,20 +163,28 @@ public class LectureController {
             i++;
         }
         System.out.println();
-        System.out.print(" 구매 :           ");
+        System.out.print("          1. 구매        2. 뒤로가기           ");
         int choice = sc.nextInt();
         System.out.println();
         System.out.println();
-        System.out.println("뒤로 가기 :  엔터 [ Enter ]");
         System.out.println();
         System.out.println("======================================");
 
         String input = sc.nextLine();
 
-        if (input.isEmpty()) {
+        if (choice == 2) {
             LandingView.LandingLogin(userDTO);
-        } else {
-            System.out.println("잘못된 입력입니다. 프로그램을 종료합니다.");
+        } else if(choice == 1) {
+
+        }else {
+            System.out.println();
+            System.out.println("======================================");
+            System.out.println("잘못된 입력 입니다.");
+            System.out.println("======================================");
+            System.out.println();
+
+            getLectures(category, userDTO);
+
         }
 
     }

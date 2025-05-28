@@ -32,6 +32,9 @@ public class PaymentView {
 		int userMoney = pay.userMoney(userId);
 		System.out.println("현재 잔여 포인트: "+userMoney);//--> 유저를 정하는걸 어떻게 하지?
 		System.out.println("총 결제 금액: "+price);
+//		System.out.println( title + " | 금액: "+ );
+		
+		System.out.println("총 결제 금액: ");
 		
 		System.out.println("결제하시겠습니까? 1.예 2.아니오");
 		int result = sc.nextInt();
