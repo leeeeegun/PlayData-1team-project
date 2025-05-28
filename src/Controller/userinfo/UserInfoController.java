@@ -5,14 +5,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 import dao.userinfo.UserInfoDao;
+import dto.user.UserDTO;
 import dto.userinfo.UserInfoDTO;
 
 public class UserInfoController {
 	//마이페이지
-	public static void myPage(String login_id, String password) {
+	public static void myPage(UserDTO userDTO) {
 		
         String loggedInMenu1 = "============== 마이페이지 ==============";
-        String loggedInMenu2 = "1. 회원 정보 보기\n2.회원 정보 수정\n3.회원 정보 삭제\n0. 메인 화면으로 이동"
+        String loggedInMenu2 = "1. 회원 정보 보기\n2. 회원 정보 수정\n3. 회원 정보 삭제\n0. 메인 화면으로 이동"
         								+"\n======================================\n메뉴 번호를 입력해주세요 :";
         
 
@@ -22,9 +23,9 @@ public class UserInfoController {
             System.out.println(loggedInMenu2);
             int choice = sc.nextInt();
             switch (choice) {
-                case 1: viewUserInfo(login_id, password); break;
-                case 2: editUserInfo(); break;
-                case 3: deleteUserInfo(); break;
+                case 1: viewUserInfo(userDTO); break;
+                case 2: editUserInfo(userDTO); break;
+                case 3: deleteUserInfo(userDTO); break;
                 case 0: return;
                 default:
                     System.out.println("잘못된 번호를 입력하셨습니다. 다시 입력해주세요.");
@@ -34,10 +35,10 @@ public class UserInfoController {
 	
 	
 	//회원정보 보기
-	public static void viewUserInfo(String login_id, String password) {//로그인을 해야 정보를 볼 수 있어서 매개변수에 아이디와 패스워드를 넣었다
+	public static void viewUserInfo(UserDTO userDTO) {
 		UserInfoDao userDao = new UserInfoDao();
 		
-		ArrayList<UserInfoDTO> list = userDao.getUserInfo(login_id, password);
+		ArrayList<UserInfoDTO> list = userDao.getUserInfo(userDTO);
 		for(UserInfoDTO userInfo : list) {
 			System.out.println("===================================");
 			System.out.println("[" + userInfo.getName() + "님 정보]");
@@ -52,27 +53,34 @@ public class UserInfoController {
 		}
 	}
 	//회원정보수정
-	 private static void editUserInfo() {
+	 private static void editUserInfo(UserDTO userDTO) {
 	        Scanner sc = new Scanner(System.in);
 	        UserInfoDao userDao = new UserInfoDao();
 	        System.out.println("수정할 회원님의 정보를 입력해주세요.");
-	        System.out.print("고유번호: ");
-	        int id = sc.nextInt();
-	        System.out.print("비밀번호: ");
+//	        System.out.print("고유번호: ");
+//	        int id = sc.nextInt();
+	        System.out.print("수정할 비밀번호: ");
 	        String newPass = sc.next();
-	        System.out.print("성명: ");
+	        System.out.print("수정할 성명: ");
 	        String newName = sc.next();
-	        System.out.print("생년월일(xxxx-xx-xx): ");
-	        String newBirth_date = sc.next();
+//	        System.out.print("생년월일(xxxx-xx-xx): ");
+//	        String newBirth_date = sc.next();
 
+	        System.out.print("수정할 생년월일(xxxx-xx-xx): ");
+	        String newBirth_date = sc.next();
 	        LocalDate newBirthDate = LocalDate.parse(newBirth_date);
 	        
-	        System.out.print("휴대전화: ");
+	        System.out.print("수정할 휴대전화: ");
 	        String newPhone = sc.next();
+
+		 System.out.println("!!!!!!!");
 	        
-	        UserInfoDTO userInfo = new UserInfoDTO(id, newPass, newName, newBirthDate, newPhone);
-			//메소드의 실행 결과를 이용해서 각각 다른 작업을 처리
+	        UserInfoDTO userInfo = new UserInfoDTO(newPass, newName, newBirthDate, newPhone);
+
+		 System.out.println("!!!!!!!");
 			int result = userDao.updateUserInfo(userInfo);
+
+
 			if(result>=1) {
 				System.out.println("회원 정보를 수정하는데 성공하였습니다.");
 			}else {
@@ -81,12 +89,12 @@ public class UserInfoController {
 
 	    }
 	 //회원탈퇴
-	 public static void deleteUserInfo(){
+	 public static void deleteUserInfo(UserDTO userDTO){
 		 	Scanner sc = new Scanner(System.in);
 	        UserInfoDao userDao = new UserInfoDao();
-			System.out.print("삭제할id:");
-			int id = sc.nextInt();
-			int result = userDao.deleteUserInfo(id);
+//			System.out.print("삭제할id:");
+//			int id = sc.nextInt();
+			int result = userDao.deleteUserInfo(userDTO);
 			if(result>=1) {
 				System.out.println("회원 탈퇴하는데 성공하였습니다. 프로그램을 종료합니다.");
 	            System.exit(0);

@@ -22,9 +22,8 @@ public class UserInfoDTO {
 		this.password = password;
 	}
 	
-	public UserInfoDTO(int id, String password, String name, LocalDate birth_date, String phone) {
+	public UserInfoDTO(String password, String name, LocalDate birth_date, String phone) {
 		super();
-		this.id = id;
 		this.password = password;
 		this.name = name;
 		this.birth_date = birth_date;

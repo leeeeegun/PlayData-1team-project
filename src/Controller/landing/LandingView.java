@@ -5,6 +5,7 @@ import Controller.login.LoginView;
 import Controller.payment.PointController;
 import Controller.qna.QnaController;
 import Controller.user.UserController;
+import Controller.userinfo.UserInfoController;
 import dto.user.UserDTO;
 
 import java.sql.SQLException;
@@ -90,6 +91,7 @@ public class LandingView {
             case 4:
                 break;
             case 5:
+                UserInfoController.myPage(userDTO);
                 break;
             case 6:
                 PointController.PointAdd(userDTO);

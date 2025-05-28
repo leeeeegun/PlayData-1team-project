@@ -5,24 +5,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import dto.user.UserDTO;
 import dto.userinfo.UserInfoDTO;
 import util.DBUtill;
 import java.sql.Date;
 
 public class UserInfoDao {
+//	public UserInfoDao() {
+//	}
 	// 회원 정보 조회
-    public ArrayList<UserInfoDTO> getUserInfo(String login_id, String password) {
+    public ArrayList<UserInfoDTO> getUserInfo(UserDTO userDTO) {
     	Connection con = null;
         PreparedStatement ptmt = null;
         ResultSet rs = null;
         String sql = "select login_id, name, birth_date, phone, money, grade,"+
-        											"total_watch_time from user where login_id = ? and password = ? ";
+        											"total_watch_time from user where id = ?";
         ArrayList<UserInfoDTO> userInfolist = new ArrayList<UserInfoDTO>();
         try {
         	con = DBUtill.getConnection();
 			ptmt = con.prepareStatement(sql);
-			ptmt.setString(1, login_id);
-			ptmt.setString(2, password);
+			ptmt.setInt(1, userDTO.getId());
 			rs = ptmt.executeQuery();
             if (rs.next()) {
             	UserInfoDTO userInfo = new UserInfoDTO(rs.getString(1),
@@ -39,21 +42,23 @@ public class UserInfoDao {
         return userInfolist;
     }
     //회원정보수정
-    public int updateUserInfo(UserInfoDTO userInfo) {
-    	String sql = "update user set password=?, name=?, password=?, birth_date=?, phone=?"
+    public int updateUserInfo(UserInfoDTO userDTO) { //UserInfoDTO userInfo
+
+		System.out.println("디비 옴");
+    	String sql = "update user set password=?, name=?, birth_date=?, phone=?"
     											+ " where id =? ";
-    	
+    	UserInfoDTO userInfo = new UserInfoDTO();
 		Connection con = null;
 		PreparedStatement ptmt = null;
 		int result = 0;
 		try {
 			con = DBUtill.getConnection();
 			ptmt = con.prepareStatement(sql);
-			ptmt.setInt(1, userInfo.getId());
-			ptmt.setString(2, userInfo.getPassword());
-			ptmt.setString(3, userInfo.getName());
-			ptmt.setDate(4, Date.valueOf(userInfo.getBirth_date()));
-			ptmt.setString(5, userInfo.getPhone());
+			ptmt.setString(1, userInfo.getPassword());
+			ptmt.setString(2, userInfo.getName());
+			ptmt.setDate(3, Date.valueOf(userInfo.getBirth_date()));
+			ptmt.setString(4, userInfo.getPhone());
+			ptmt.setInt(5, userDTO.getId());
 			result = ptmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -64,7 +69,7 @@ public class UserInfoDao {
 		}
 		return result;
 	}
-    public int deleteUserInfo(int id) {
+    public int deleteUserInfo(UserDTO userDTO) { 
 		Connection con = null;
 		PreparedStatement ptmt =  null;
 		int result = 0;
@@ -73,7 +78,7 @@ public class UserInfoDao {
 		try {
 			con = DBUtill.getConnection();
 			ptmt = con.prepareStatement(sql);
-			ptmt.setInt(1, id);
+			ptmt.setInt(1, userDTO.getId());
 			result = ptmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

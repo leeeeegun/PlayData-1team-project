@@ -3,7 +3,9 @@ import java.text.ParseException;
 import Controller.payment.PaymentView;
 import Controller.rating.RatingView;
 import Controller.userinfo.UserInfoController;
+import dao.login.LoginDao;
 import dao.payment.PaymentDao;
+import dto.user.UserDTO;
 
 public class MainBae {
 
@@ -14,11 +16,9 @@ public class MainBae {
         //RatingView.deleteRating();
 //    	PaymentView pay = new PaymentView();
 //    	pay.paymentSystem();
+    	UserDTO userDTO = new UserDTO(1, null, 0, null);
     	UserInfoController use1 = new UserInfoController();
-    	String a = "user1";
-    	String b = "a123";
-    	
-    	use1.myPage(a,b);
+    	use1.myPage(userDTO);
     	
 
     }
