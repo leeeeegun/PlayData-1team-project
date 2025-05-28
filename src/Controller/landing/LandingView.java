@@ -4,6 +4,7 @@ import Controller.lecture.LectureController;
 import Controller.login.LoginView;
 import Controller.payment.PointController;
 import Controller.qna.QnaController;
+import Controller.uploading.UploadingController;
 import Controller.user.UserController;
 import Controller.userinfo.UserInfoController;
 import dto.user.UserDTO;
@@ -69,7 +70,8 @@ public class LandingView {
         System.out.println(" 7. 강의 추천          ");
         System.out.println(" 8. Q & A          ");
         System.out.println(" 9. 찜한 강의          ");
-        System.out.println(" 10. 나가기          ");
+        System.out.println(" 10. 내가 올린 강의          ");
+        System.out.println(" 11. 나가기          ");
         System.out.println();
         System.out.print(" 선택 :           ");
         int choice = sc.nextInt();
@@ -89,6 +91,7 @@ public class LandingView {
                 lectureController.LectureCategory(userDTO);
                 break;
             case 4:
+                UploadingController.uploadInsert(userDTO);
                 break;
             case 5:
                 UserInfoController.myPage(userDTO);
@@ -106,6 +109,9 @@ public class LandingView {
                 LectureController.favoriteLectures(userDTO);
                 break;
             case 10:
+                LectureController.myAuthorLectures(userDTO);
+                break;
+            case 11:
                 System.out.println("======================================");
                 System.out.println("        이용해주셔서 감사합니다.       ");
                 System.out.println("======================================");

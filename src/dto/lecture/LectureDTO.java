@@ -19,6 +19,9 @@ public class LectureDTO {
         this.favorite_count = favorite_count;
     }
 
+    public LectureDTO() {
+    }
+
     public int getId() {
         return id;
     }

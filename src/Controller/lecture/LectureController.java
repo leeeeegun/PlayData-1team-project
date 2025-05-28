@@ -2,6 +2,7 @@ package Controller.lecture;
 
 import Controller.landing.LandingView;
 import Controller.login.LoginView;
+import Controller.payment.PaymentView;
 import Controller.user.UserController;
 import dao.lecture.LectureDao;
 import dao.user.UserLecturesDao;
@@ -204,7 +205,7 @@ public class LectureController {
             }
 
         } else if (choice == 1) {
-
+            PaymentView.paymentSystem(userDTO);
         } else {
             System.out.println();
             System.out.println("======================================");
@@ -253,7 +254,8 @@ public class LectureController {
             int input = sc.nextInt();
 
             if (input == 1) {
-                System.out.println("구매하기 구현");
+
+                PaymentView.paymentSystem(userDTO);
             } else if (input == 2) {
                 System.out.println();
                 System.out.println();
@@ -369,7 +371,42 @@ public class LectureController {
 
     }
 
+    public static void myAuthorLectures(UserDTO userDTO) throws SQLException, InterruptedException {
 
+        LectureDao lectureDao = new LectureDao();
+        Scanner sc = new Scanner(System.in);
+        List<LectureDTO> lecturesByUserId = lectureDao.getLecturesByUserId(userDTO.getId());
+
+        System.out.println("===================================");
+        System.out.println("           내가올린 강의 목록            ");
+        System.out.println();
+        if (lecturesByUserId.isEmpty()) {
+            System.out.println("             비어 있음              ");
+
+        } else {
+            for (LectureDTO lectureDTO : lecturesByUserId) {
+                System.out.println(lectureDTO.getId() + ". " + lectureDTO.getTitle() + "   가격 - " + lectureDTO.getPrice());
+            }
+
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            System.out.println("       확인 [엔터(Enter)]    ");
+            System.out.println();
+            System.out.println("==============================");
+            String input = sc.nextLine();
+
+            if (input.isEmpty()) {
+                LandingView.LandingLogin(userDTO);
+            } else {
+                System.out.println("잘못된 입력입니다. 프로그램을 종료합니다.");
+            }
+
+
+
+        }
+
+    }
 
 
 

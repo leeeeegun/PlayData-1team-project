@@ -191,6 +191,34 @@ public class LectureDao {
         }
     }
 
+    public List<LectureDTO> getLecturesByUserId(int userId) {
+        List<LectureDTO> lectures = new ArrayList<>();
+        String sql = "SELECT * FROM lectures WHERE instructor_id = ?";
+
+        try (Connection con = DBUtill.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                LectureDTO lecture = new LectureDTO();
+                lecture.setId(rs.getInt("id"));
+                lecture.setTitle(rs.getString("title"));
+                lecture.setDescription(rs.getString("description"));
+                lecture.setPrice(rs.getInt("price"));
+                lectures.add(lecture);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lectures;
+    }
+
+
+
+
 
 
 

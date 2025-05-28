@@ -54,5 +54,39 @@ public class PaymentDao {
 		}
 		return paymentlist;
 	}
-	
+
+	public Integer deductUserPointsAndGetBalance(int userId, int amount) throws SQLException {
+		String updateSql = """
+        UPDATE user
+        SET money = money - ?
+        WHERE id = ? AND money >= ?
+    """;
+
+		String selectSql = "SELECT money FROM user WHERE id = ?";
+
+		try (
+				Connection con = DBUtill.getConnection();
+				PreparedStatement updateStmt = con.prepareStatement(updateSql);
+				PreparedStatement selectStmt = con.prepareStatement(selectSql)
+		) {
+			updateStmt.setInt(1, amount);
+			updateStmt.setInt(2, userId);
+			updateStmt.setInt(3, amount);
+			int rowsAffected = updateStmt.executeUpdate();
+
+			if (rowsAffected > 0) {
+				selectStmt.setInt(1, userId);
+				try (ResultSet rs = selectStmt.executeQuery()) {
+					if (rs.next()) {
+						return rs.getInt("money");
+					}
+				}
+			}
+
+			return null;
+		}
+	}
+
+
+
 }

@@ -11,32 +11,32 @@ import util.DBUtill;
 
 public class UploadingDAO {
 	public int uploadInsert(UploadingDTO upload, UserDTO userdto) {
-		String sql = "insert into lectures values(?, ?, ?, ?, ?, sysdate(), sysdate())";
+		String sql = "INSERT INTO lectures (title, description, instructor_id, price, category, created_at, updated_at) VALUES (?, ?, ?, ?, ?, sysdate(), sysdate())";
+
 		Connection con = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        int result = 0;
-        
-        try {
-        	con = DBUtill.getConnection();
+		PreparedStatement stmt = null;
+		int result = 0;
+
+		try {
+			con = DBUtill.getConnection();
 			stmt = con.prepareStatement(sql);
-			rs = stmt.executeQuery();
-			
+
 			stmt.setString(1, upload.getTitle());
 			stmt.setString(2, upload.getDescription());
-//			stmt.setInt(3, userdto.);
+			stmt.setInt(3, userdto.getId());
 			stmt.setInt(4, upload.getPrice());
 			stmt.setString(5, upload.getCategory());
-			
+
 			result = stmt.executeUpdate();
 			System.out.println(result + "강의 등록 성공!");
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
-            	DBUtill.close(null, stmt, con);
-            }
-        return result;
-        }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtill.close(null, stmt, con);
+		}
+		return result;
 	}
+}
+
 
 
