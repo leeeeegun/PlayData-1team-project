@@ -11,9 +11,9 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) throws SQLException {
 
-//        LandingView.LandingNotLogin();
+        LandingView.LandingNotLogin();
     	
-    	LoginView.login();
+//    	LoginView.login();
 
 
 //            LoginView.login();
