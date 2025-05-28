@@ -27,13 +27,13 @@ public class LoginDao {
                 UserDTO userDTO = new UserDTO(rs.getInt("id"),rs.getString("name"), rs.getInt("money"),
                         rs.getString("grade"));
 
-                return userDTO;  // 로그인 성공
+                return userDTO;
             } else {
-                return null; // 아이디 또는 비밀호 불일치
+                return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null; // 예외 발생 시 반환
+            return null;
         } finally {
             DBUtill.close(rs, stmt, con);
         }

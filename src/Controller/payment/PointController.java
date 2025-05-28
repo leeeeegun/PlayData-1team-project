@@ -48,14 +48,13 @@ public class PointController {
             System.out.print("결제 중입니다");
 
             int result = pointDao.PointAdd(userDTO, account);
-            // 점을 하나씩 추가하며 출력
             for (int i = 0; i < 3; i++) {
                 try {
-                    Thread.sleep(500); // 0.5초 대기
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.print("."); // 점 추가 출력
+                System.out.print(".");
             }
 
             if(result !=1){
@@ -64,9 +63,8 @@ public class PointController {
                 System.out.println("==============================");
             }
 
-            // 줄 바꿈
             try {
-                Thread.sleep(3000); // 3초 동안 멈춤 (밀리초 단위)
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

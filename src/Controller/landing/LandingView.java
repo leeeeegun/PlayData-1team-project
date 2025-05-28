@@ -3,6 +3,7 @@ package Controller.landing;
 import Controller.lecture.LectureController;
 import Controller.login.LoginView;
 import Controller.payment.PointController;
+import Controller.qna.QnaController;
 import Controller.user.UserController;
 import dto.user.UserDTO;
 
@@ -97,7 +98,7 @@ public class LandingView {
 
                 break;
             case 8:
-
+                QnaController.QnaMain(userDTO);
                 break;
             case 9:
                 LectureController.favoriteLectures(userDTO);
