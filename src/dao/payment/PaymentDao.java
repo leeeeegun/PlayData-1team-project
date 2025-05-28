@@ -55,7 +55,7 @@ public class PaymentDao {
 		return paymentlist;
 	}
 
-	public Integer deductUserPointsAndGetBalance(int userId, int amount) throws SQLException {
+	public Integer deductUserPointsAndGetBalanceAndInsertLecture(int userId, int amount, int lectureId) throws SQLException {
 		String updateSql = """
         UPDATE user
         SET money = money - ?
@@ -64,28 +64,68 @@ public class PaymentDao {
 
 		String selectSql = "SELECT money FROM user WHERE id = ?";
 
-		try (
-				Connection con = DBUtill.getConnection();
-				PreparedStatement updateStmt = con.prepareStatement(updateSql);
-				PreparedStatement selectStmt = con.prepareStatement(selectSql)
-		) {
+		String insertLectureSql = """
+        INSERT INTO user_lectures (user_id, lecture_id, purchased_at, total_duration, user_duration)
+        VALUES (?, ?, NOW(), 20, 0)
+    """;
+
+		Connection con = null;
+		PreparedStatement updateStmt = null;
+		PreparedStatement selectStmt = null;
+		PreparedStatement insertLectureStmt = null;
+
+		try {
+			con = DBUtill.getConnection();
+			// 트랜잭션 시작
+			con.setAutoCommit(false);
+
+			// 1. 유저 포인트 차감
+			updateStmt = con.prepareStatement(updateSql);
 			updateStmt.setInt(1, amount);
 			updateStmt.setInt(2, userId);
 			updateStmt.setInt(3, amount);
 			int rowsAffected = updateStmt.executeUpdate();
 
-			if (rowsAffected > 0) {
-				selectStmt.setInt(1, userId);
-				try (ResultSet rs = selectStmt.executeQuery()) {
-					if (rs.next()) {
-						return rs.getInt("money");
-					}
-				}
+			if (rowsAffected == 0) {
+				con.rollback();
+				return null;
 			}
 
+			insertLectureStmt = con.prepareStatement(insertLectureSql);
+			insertLectureStmt.setInt(1, userId);
+			insertLectureStmt.setInt(2, lectureId);
+			insertLectureStmt.executeUpdate();
+
+			selectStmt = con.prepareStatement(selectSql);
+			selectStmt.setInt(1, userId);
+			ResultSet rs = selectStmt.executeQuery();
+			Integer balance = null;
+			if (rs.next()) {
+				balance = rs.getInt("money");
+			}
+
+			con.commit();
+
+			return balance;
+
+		} catch (SQLException e) {
+			if (con != null) {
+				con.rollback();
+			}
+			e.printStackTrace();
 			return null;
+
+		} finally {
+			if (updateStmt != null) updateStmt.close();
+			if (insertLectureStmt != null) insertLectureStmt.close();
+			if (selectStmt != null) selectStmt.close();
+			if (con != null) {
+				con.setAutoCommit(true);
+				con.close();
+			}
 		}
 	}
+
 
 
 

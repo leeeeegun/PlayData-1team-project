@@ -122,6 +122,41 @@ public class LandingView {
 
     }
 
+    public static void LandingAdmin() throws SQLException {
+        Scanner sc = new Scanner(System.in);
+        LectureController lectureController = new LectureController();
+
+        System.out.println("======================================");
+        System.out.println();
+        System.out.println("                 플레인프런              ");
+        System.out.println();
+        System.out.println();
+        System.out.println(" 0. 대쉬보드         ");
+        System.out.println(" 1. Q&A         ");
+        System.out.println(" 2. 회원 관리          ");
+        System.out.println(" 3. 종료          ");
+        System.out.println();
+        System.out.println();
+        System.out.print(" 선택 :           ");
+        int choice = sc.nextInt();
+        System.out.println();
+        System.out.println();
+        System.out.println("======================================");
+
+        if(choice == 1){
+            LoginView.login();
+        } else if(choice == 2){
+            lectureController.LectureCategory();
+        } else if(choice == 0){
+            LoginView.join();
+        } else{
+            System.out.println("======================================");
+            System.out.println("        이용해주셔서 감사합니다.       ");
+            System.out.println("======================================");
+            System.exit(0);
+        }
+
+    }
 
 
 }

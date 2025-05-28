@@ -1,5 +1,6 @@
 package Controller.payment;
 
+import Controller.add.AddController;
 import Controller.landing.LandingView;
 import dao.payment.PointDao;
 import dto.user.UserDTO;
@@ -48,6 +49,7 @@ public class PointController {
             System.out.print("결제 중입니다");
 
             int result = pointDao.PointAdd(userDTO, account);
+            AddController.addEditor();
             for (int i = 0; i < 3; i++) {
                 try {
                     Thread.sleep(500);
@@ -55,6 +57,7 @@ public class PointController {
                     e.printStackTrace();
                 }
                 System.out.print(".");
+
             }
 
             if(result !=1){
@@ -92,6 +95,8 @@ public class PointController {
         System.out.println();
         System.out.println("       포인트가 충전 되었습니다.    ");
         System.out.println();
+        System.out.println();
+        System.out.println("      현재 포인트 : " + userDTO.getMoney());
         System.out.println();
         System.out.println("       확인 [엔터(Enter)]    ");
         System.out.println();

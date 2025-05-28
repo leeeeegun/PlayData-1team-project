@@ -77,7 +77,7 @@ public class PaymentView {
 
 
 
-		int currentPoint = pay.deductUserPointsAndGetBalance(userDTO.getId(), price);
+		int currentPoint = pay.deductUserPointsAndGetBalanceAndInsertLecture(userDTO.getId(), price,id);
 		userDTO.setMoney(currentPoint);
 
 		System.out.println();

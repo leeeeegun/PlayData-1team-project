@@ -4,6 +4,7 @@ public class UserDTO {
 
     private boolean isLogin;
 
+
     private int id;
     private String name;
     private int money;

@@ -1,5 +1,6 @@
 package Controller.login;
 
+import Controller.add.AddController;
 import Controller.landing.LandingView;
 import dao.login.LoginDao;
 import dto.login.JoinDTO;
@@ -21,6 +22,8 @@ public class LoginView {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        AddController.addEditor();
         System.out.println("=============================");
         System.out.println("             로그인            ");
         System.out.print("아이디  :  ");
@@ -33,7 +36,13 @@ public class LoginView {
 
         try {
             UserDTO userDTO = loginDao.Login(id, password);
-            LandingView.LandingLogin(userDTO);
+
+            if(userDTO.getGrade().equals("관리자")){
+                LandingView.LandingAdmin();
+            } else{
+                LandingView.LandingLogin(userDTO);
+
+            }
         } catch (SQLException e) {
             System.out.println("데이터베이스 오류가 발생했습니다.");
             e.printStackTrace();

@@ -1,16 +1,19 @@
 package Controller.userinfo;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import Controller.landing.LandingView;
 import dao.userinfo.UserInfoDao;
 import dto.user.UserDTO;
 import dto.userinfo.UserInfoDTO;
 
 public class UserInfoController {
 	//마이페이지
-	public static void myPage(UserDTO userDTO) {
+	public static void myPage(UserDTO userDTO) throws SQLException, InterruptedException {
 		
         String loggedInMenu1 = "============== 마이페이지 ==============";
         String loggedInMenu2 = "1. 회원 정보 보기\n2. 회원 정보 수정\n3. 회원 정보 삭제\n0. 메인 화면으로 이동"
@@ -26,7 +29,8 @@ public class UserInfoController {
                 case 1: viewUserInfo(userDTO); break;
                 case 2: editUserInfo(userDTO); break;
                 case 3: deleteUserInfo(userDTO); break;
-                case 0: return;
+                case 0:
+					LandingView.LandingLogin(userDTO); break;
                 default:
                     System.out.println("잘못된 번호를 입력하셨습니다. 다시 입력해주세요.");
             }
