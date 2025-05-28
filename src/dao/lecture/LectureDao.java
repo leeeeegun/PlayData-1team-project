@@ -190,6 +190,29 @@ public class LectureDao {
             DBUtill.close(null, stmt, con);
         }
     }
+    public boolean markLectureCompleted(int lectureId, int userId, long durationSeconds) throws SQLException {
+        String sql = "UPDATE user_lectures SET user_duration = user_duration + ?, is_completed = 1 WHERE user_id = ? AND lecture_id = ?";
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        try {
+            con = DBUtill.getConnection();
+            stmt = con.prepareStatement(sql);
+
+            stmt.setLong(1, durationSeconds);
+            stmt.setInt(2, userId);
+            stmt.setInt(3, lectureId);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            DBUtill.close(null, stmt, con);
+        }
+    }
+
 
     public List<LectureDTO> getLecturesByUserId(int userId) {
         List<LectureDTO> lectures = new ArrayList<>();

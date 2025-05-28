@@ -40,8 +40,14 @@ public class UserController {
             }
         } else {
             for (LectureDTO lectureDTO : lecturesByUserId) {
-                System.out.println(lectureDTO.getId() + ". " +
-                        lectureDTO.getTitle() + " ");
+                if(lectureDTO.isEnd()){
+                    System.out.println("\uD83C\uDF89"+lectureDTO.getId() + ". " +
+                            lectureDTO.getTitle() + " ");
+                } else{
+                    System.out.println(lectureDTO.getId() + ". " +
+                            lectureDTO.getTitle() + " ");
+                }
+
             }
 
         }

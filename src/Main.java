@@ -13,10 +13,7 @@ public class Main {
 
         LandingView.LandingNotLogin();
     	
-//    	LoginView.login();
 
-
-//            LoginView.login();
 
 
 

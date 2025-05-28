@@ -2,10 +2,15 @@ package Controller.admin;
 
 import Controller.landing.LandingView;
 import dao.admin.AdminDAO;
+import dao.qna.QnaDao;
 import dto.admin.DashboardStats;
+import dto.qna.QnaSummaryDTO;
 import dto.user.UserDTO;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class AdminController {
 
@@ -34,6 +39,67 @@ public class AdminController {
         LandingView.LandingAdmin();
 
     }
+
+//    public static void QnaAnswer(){
+//        Scanner sc = new Scanner(System.in);
+//        QnaDao qnaDao = new QnaDao();
+//        List<QnaSummaryDTO> qnaSummariesByUserId = new ArrayList<>();
+//
+//
+//
+//
+//        System.out.println("====================================");
+//        System.out.println();
+//        System.out.println("               Q & A                ");
+//        System.out.println();
+//        System.out.println();
+//        if (qnaSummariesByUserId.isEmpty()) {
+//            System.out.println("             비어 있음              ");
+//            System.out.println();
+//            System.out.println();
+//            System.out.println("       확인 [엔터(Enter)]    ");
+//            System.out.println();
+//            System.out.println("==============================");
+//            String input = sc.nextLine();
+//
+//            if (input.isEmpty()) {
+//                LandingView.LandingLogin(userDTO);
+//            } else {
+//                System.out.println("잘못된 입력입니다. 프로그램을 종료합니다.");
+//            }
+//        } else {
+//            for (QnaSummaryDTO qnaSummaryDTO : qnaSummariesByUserId) {
+//                System.out.println(qnaSummaryDTO.getId() + ". " +
+//                        qnaSummaryDTO.getTitle());
+//                System.out.println();
+//            }
+//
+//            System.out.println();
+//            System.out.println();
+//            System.out.println("        1. 상세보기         2. 뒤로가기 ");
+//            System.out.println();
+//            System.out.println("====================================");
+//            System.out.println();
+//            System.out.println();
+//            System.out.print(" 입력 : ");
+//            int input = sc.nextInt();
+//
+//
+//            if(input == 1){
+//                System.out.print(" 번호 입력 : ");
+//                int number = sc.nextInt();
+//                System.out.println();
+//                QnaGet(userDTO, number, num);
+//
+//            } else if (input == 2) {
+//                QnaMain(userDTO);
+//            } else{
+//                LandingView.LandingLogin(userDTO);
+//            }
+//
+//
+//        }
+//    }
 
 
 

@@ -24,6 +24,7 @@ public class LoginView {
         }
 
         AddController.addEditor();
+        System.out.println();
         System.out.println("=============================");
         System.out.println("             로그인            ");
         System.out.print("아이디  :  ");
@@ -47,7 +48,10 @@ public class LoginView {
             System.out.println("데이터베이스 오류가 발생했습니다.");
             e.printStackTrace();
         } catch (NullPointerException e){
+            System.out.println();
             System.out.println("아이디 또는 비밀번호가 틀렸습니다.");
+            System.out.println();
+            System.out.println();
             login();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

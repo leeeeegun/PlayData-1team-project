@@ -295,81 +295,135 @@ public class LectureController {
         LectureDurationDTO userLectureDuration = lectureDao.getUserLectureDuration(lecId, userDTO.getId());
         Scanner sc = new Scanner(System.in);
 
+        int userDuration = userLectureDuration.getUserDuration();
+        int totalDuration = userLectureDuration.getTotalDuration();
+
+        if (userDuration > 0) {
+            System.out.println();
+            System.out.println();
+            System.out.println("     이어서 시청하시겠습니까?");
+            System.out.println();
+            System.out.println("     현재 시청 시간: " + userDuration + "초");
+            System.out.println("     총 시청 길이: " + totalDuration + "초");
+            System.out.println();
+            System.out.println();
+            System.out.println("     1. Yes      2. No");
+            System.out.print("선택: ");
+            int input = sc.nextInt();
+            sc.nextLine();
+            if (input != 1) {
+                userDuration = 0;
+            }
+        }
+
         System.out.println();
-        System.out.println("강의 시청 시작하려면 엔터를 누르세요...");
+        System.out.println("강의 시청을 시작하려면 [Enter] 키를 누르세요...");
         sc.nextLine();
+
         long startTime = System.currentTimeMillis();
-        System.out.println();
-        System.out.println("강의 시청 시작!");
-        System.out.println();
+        System.out.println("\n강의 시청 시작!\n");
         System.out.println(userLectureDuration.getDescription());
 
         System.out.println("▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓");
         System.out.println("▓                                    ▓");
         System.out.println("▓             🎥 강의  🎥             ▓");
         System.out.println("▓                                    ▓");
-        System.out.println("▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓");
-
+        System.out.println("▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n");
         System.out.println();
+
+        final boolean[] autoEnded = {false};
+        final int startUserDuration = userDuration;
+        final long startTimeFinal = startTime;
 
         Thread animationThread = new Thread(() -> {
             int dotCount = 0;
             try {
                 while (!Thread.currentThread().isInterrupted()) {
+                    long elapsedSeconds = (System.currentTimeMillis() - startTimeFinal) / 1000 + startUserDuration;
+                    if (elapsedSeconds >= totalDuration) {
+                        System.out.println();
+                        System.out.print("\r강의가 끝났습니다! 🎉              \n");
+                        System.out.println();
+                        System.out.println("계속 하실려면 [Enter] ");
+                        System.out.println();
+                        autoEnded[0] = true;
+                        break;
+                    }
                     dotCount = (dotCount % 3) + 1;
                     String dots = ".".repeat(dotCount);
                     System.out.print("\r강의 재생 중" + dots + "   ");
                     Thread.sleep(1000);
                 }
-            } catch (InterruptedException e) {
-
-            }
+            } catch (InterruptedException ignored) {}
         });
 
-        System.out.println("강의 시청을 종료하려면 엔터를 누르세요...");
         System.out.println();
+        System.out.println("강의 시청을 종료하려면 [Enter] 키를 누르세요...\n");
         System.out.println();
 
         animationThread.start();
-        sc.nextLine();
+
+        while (true) {
+
+            if (sc.hasNextLine()) {
+                sc.nextLine();
+                break;
+            }
+            long elapsedSeconds = (System.currentTimeMillis() - startTime) / 1000 + userDuration;
+            if (elapsedSeconds >= totalDuration) {
+                break;
+            }
+            Thread.sleep(200);
+        }
+
         animationThread.interrupt();
         animationThread.join();
-        long endTime = System.currentTimeMillis();
-        long durationMillis = endTime - startTime;
-        long durationSeconds = durationMillis / 1000;
 
+        long endTime = System.currentTimeMillis();
+        long watchedNow = (endTime - startTime) / 1000;
+        long newUserDuration = userDuration + watchedNow;
+
+        if (newUserDuration > totalDuration) {
+            newUserDuration = totalDuration;
+        }
+
+        System.out.println("\n\n===========================================");
         System.out.println();
-        System.out.println();
-        System.out.println("===========================================");
         System.out.println();
         System.out.println("\n강의 시청 종료!");
-        System.out.println("\n" + durationSeconds +"초 동안 강의 시청");
+        System.out.println();
+        System.out.println("\n총 " + watchedNow + "초 동안 시청했습니다.");
+        System.out.println();
+        System.out.println("\n누적 시청 시간: " + newUserDuration + "초 / " + totalDuration + "초");
         System.out.println();
         System.out.println();
-        System.out.println();
-        System.out.println("===========================================");
-        System.out.println();
-        System.out.println();
-        System.out.println("                 확인 [Enter]         ");
-        System.out.println();
-        System.out.println();
+        System.out.println("\n===========================================\n");
+        System.out.println("                 확인 [Enter]");
+        sc.nextLine();
 
-        String input = sc.nextLine();
-
-        if (input.isEmpty()) {
-            lectureDao.updateUserLectureDuration(lecId, userDTO.getId(), durationSeconds);
-            userLecturesDao.updateUserLectureDuration(userDTO.getId(), durationSeconds);
-
-            UserController.userLecture(userDTO);
+        if (newUserDuration >= totalDuration) {
+            System.out.println();
+            System.out.println("🎉 완강을 축하합니다! 기록을 완료 처리합니다.");
+            System.out.println();
+            lectureDao.markLectureCompleted(lecId, userDTO.getId(),totalDuration);
+            userLecturesDao.markLectureCompleted(userDTO.getId(), lecId);
         } else {
-            System.out.println("잘못된 입력입니다. 프로그램을 종료합니다.");
+            lectureDao.updateUserLectureDuration(lecId, userDTO.getId(), (int) newUserDuration);
+            userLecturesDao.updateUserLectureDuration(userDTO.getId(), (int) newUserDuration);
         }
 
 
 
+        if (autoEnded[0]) {
+            System.out.println("✔ 강의를 끝까지 시청했습니다!");
+        } else {
+            System.out.println("⚠ 강의가 끝나기 전에 종료했습니다.");
+        }
 
-
+        UserController.userLecture(userDTO);
     }
+
+
 
     public static void myAuthorLectures(UserDTO userDTO) throws SQLException, InterruptedException {
 

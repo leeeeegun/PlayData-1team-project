@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class UserLecturesDao {
     public ArrayList<LectureDTO> getLecturesByUserId(UserDTO userDTO){
-        String sql = "SELECT l.* " +
+        String sql = "SELECT l.*, ul.is_completed " +
                 "FROM lectures l " +
                 "JOIN user_lectures ul ON l.id = ul.lecture_id " +
                 "WHERE ul.user_id = ?;";
@@ -28,6 +28,7 @@ public class UserLecturesDao {
             rs = stmt.executeQuery();
             while(rs.next()) {
                 LectureDTO lectureDTO = new LectureDTO(
+                        rs.getBoolean("is_completed"),
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getInt("price"),
@@ -69,6 +70,27 @@ public class UserLecturesDao {
     }
 
     public boolean updateUserLectureDuration(int userId, long durationSeconds) throws SQLException {
+        String sql = "UPDATE user SET total_watch_time = total_watch_time + ? WHERE id = ? ";
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        try {
+            con = DBUtill.getConnection();
+            stmt = con.prepareStatement(sql);
+
+            stmt.setLong(1, durationSeconds);
+            stmt.setInt(2, userId);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            DBUtill.close(null, stmt, con);
+        }
+    }
+    public boolean markLectureCompleted(int userId, long durationSeconds) throws SQLException {
         String sql = "UPDATE user SET total_watch_time = total_watch_time + ? WHERE id = ? ";
         Connection con = null;
         PreparedStatement stmt = null;
