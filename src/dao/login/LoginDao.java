@@ -1,12 +1,10 @@
 package dao.login;
 
+import dto.login.JoinDTO;
 import dto.user.UserDTO;
 import util.DBUtill;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class LoginDao {
 
@@ -29,16 +27,43 @@ public class LoginDao {
                 UserDTO userDTO = new UserDTO(rs.getInt("id"),rs.getString("name"), rs.getInt("money"),
                         rs.getString("grade"));
 
-                return userDTO;  // 로그인 성공
+                return userDTO;
             } else {
-                return null; // 아이디 또는 비밀호 불일치
+                return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null; // 예외 발생 시 반환
+            return null;
         } finally {
             DBUtill.close(rs, stmt, con);
         }
     }
+
+    public int joinUser(JoinDTO user) {
+        String sql = "INSERT INTO user (name, login_id, password, birth_date, phone) VALUES (?, ?, ?, ?, ?)";
+        Connection con = null;
+        PreparedStatement stmt = null;
+        int result = 0;
+
+        try {
+            con = DBUtill.getConnection();
+            stmt = con.prepareStatement(sql);
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getLoginId());
+            stmt.setString(3, user.getPassword());
+            stmt.setDate(4, Date.valueOf(user.getBirthDate()));
+            stmt.setString(5, user.getPhone());
+
+            result = stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtill.close(null, stmt, con);
+        }
+
+        return result;
+    }
+
 }
 

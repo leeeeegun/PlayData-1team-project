@@ -42,7 +42,9 @@ public class UserInfoDao {
         return userInfolist;
     }
     //회원정보수정
-    public int updateUserInfo(UserDTO userDTO) { //UserInfoDTO userInfo
+    public int updateUserInfo(UserInfoDTO userDTO) { //UserInfoDTO userInfo
+
+		System.out.println("디비 옴");
     	String sql = "update user set password=?, name=?, birth_date=?, phone=?"
     											+ " where id =? ";
     	UserInfoDTO userInfo = new UserInfoDTO();

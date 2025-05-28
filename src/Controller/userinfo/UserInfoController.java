@@ -63,16 +63,24 @@ public class UserInfoController {
 	        String newPass = sc.next();
 	        System.out.print("수정할 성명: ");
 	        String newName = sc.next();
+//	        System.out.print("생년월일(xxxx-xx-xx): ");
+//	        String newBirth_date = sc.next();
+
 	        System.out.print("수정할 생년월일(xxxx-xx-xx): ");
 	        String newBirth_date = sc.next();
 	        LocalDate newBirthDate = LocalDate.parse(newBirth_date);
 	        
 	        System.out.print("수정할 휴대전화: ");
 	        String newPhone = sc.next();
+
+		 System.out.println("!!!!!!!");
 	        
 	        UserInfoDTO userInfo = new UserInfoDTO(newPass, newName, newBirthDate, newPhone);
-			//메소드의 실행 결과를 이용해서 각각 다른 작업을 처리
-			int result = userDao.updateUserInfo(userDTO);
+
+		 System.out.println("!!!!!!!");
+			int result = userDao.updateUserInfo(userInfo);
+
+
 			if(result>=1) {
 				System.out.println("회원 정보를 수정하는데 성공하였습니다.");
 			}else {

@@ -17,6 +17,7 @@ public class UserDTO {
         isLogin = true;
     }
 
+
     public boolean isLogin() {
         return isLogin;
     }

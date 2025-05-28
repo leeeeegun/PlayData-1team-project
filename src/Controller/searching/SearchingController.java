@@ -11,7 +11,7 @@ import dto.user.UserDTO;
 
 public class SearchingController {
 	
-	public static void searchingController(UserDTO userDTO) throws SQLException {
+	public static void searchingController(UserDTO userDTO) throws SQLException, InterruptedException {
 		Scanner sc = new Scanner(System.in);
 		SearchingDao searchingDao = new SearchingDao();
 		System.out.println("===============================");
@@ -64,12 +64,14 @@ public class SearchingController {
 		System.out.println();
 		System.out.print("제목을 입력하세요  :   ");
 		String title = sc.next();
+		sc.nextLine();
 		System.out.println();
 		ArrayList<SearchingDTO> searchList = searchingDao.searchingTitle(title);
 		System.out.println();
 		System.out.println("===============================");
 
 		for(SearchingDTO search:searchList) {
+			System.out.println("===============================");
 			System.out.println("번호 :  "+search.getID());
 			System.out.println("제목 :  "+search.getTitle());
 			System.out.println("내용 :  "+search.getDescription());
@@ -80,12 +82,26 @@ public class SearchingController {
 			System.out.println("즐겨찾기 :  "+search.getFavorite_count());
 			System.out.println("생성날짜 :  "+search.getCreated_at());
 			System.out.println("등록날짜 :  "+search.getUpdated_at());
+			System.out.println("===============================");
 		}
 
 		System.out.println();
-		System.out.println("   1. 구매하기         2. 뒤로 가기          ");
+		System.out.println();
+		System.out.println("     1. 구매하기         2. 뒤로 가기          ");
+		System.out.println();
 
-		int input = sc.nextInt();
+		int input = -1;
+		while (true) {
+			System.out.print("번호 입력: ");
+			if (sc.hasNextInt()) {
+				input = sc.nextInt();
+				break;
+			} else {
+				System.out.println("숫자를 입력해주세요.");
+				sc.next();
+			}
+		}
+
 
 		if (input == 1) {
 			System.out.println("==========================");
