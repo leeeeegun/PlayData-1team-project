@@ -1,9 +1,12 @@
 package Controller.rating;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import Controller.landing.LandingView;
 import dao.rating.RatingDao;
+import dto.user.UserDTO;
 
 public class RatingView {
 	
@@ -13,7 +16,7 @@ public class RatingView {
      * 평점 삭제
      * 강의 평점 보기(평점 계산)
 	 */
-	public static void insertRating() {
+	public static void insertRating(UserDTO userDTO) throws SQLException, InterruptedException {
 		Scanner sc = new Scanner(System.in);
 		RatingDao rao = new RatingDao();
 		
@@ -26,6 +29,7 @@ public class RatingView {
 	    
 	    if(result>=1) {
 	    	System.out.println("평점 등록에 성공하였습니다.");
+			LandingView.LandingLogin(userDTO);
 	    } else {
 	    	System.out.println("평점 등록에 실패하였습니다.");
 		}

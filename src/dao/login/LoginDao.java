@@ -1,12 +1,10 @@
 package dao.login;
 
+import dto.login.JoinDTO;
 import dto.user.UserDTO;
 import util.DBUtill;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class LoginDao {
 
@@ -40,5 +38,32 @@ public class LoginDao {
             DBUtill.close(rs, stmt, con);
         }
     }
+
+    public int joinUser(JoinDTO user) {
+        String sql = "INSERT INTO user (name, login_id, password, birth_date, phone) VALUES (?, ?, ?, ?, ?)";
+        Connection con = null;
+        PreparedStatement stmt = null;
+        int result = 0;
+
+        try {
+            con = DBUtill.getConnection();
+            stmt = con.prepareStatement(sql);
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getLoginId());
+            stmt.setString(3, user.getPassword());
+            stmt.setDate(4, Date.valueOf(user.getBirthDate()));
+            stmt.setString(5, user.getPhone());
+
+            result = stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtill.close(null, stmt, con);
+        }
+
+        return result;
+    }
+
 }
 

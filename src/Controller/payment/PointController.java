@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class PointController {
 
-    public static void PointAdd(UserDTO userDTO) throws SQLException {
+    public static void PointAdd(UserDTO userDTO) throws SQLException, InterruptedException {
         Scanner sc = new Scanner(System.in);
         System.out.println("==============================");
         System.out.println("           포인트 충전            ");
@@ -28,7 +28,7 @@ public class PointController {
 
     }
 
-    public static void PointAddCheck(UserDTO userDTO, int account) throws SQLException {
+    public static void PointAddCheck(UserDTO userDTO, int account) throws SQLException, InterruptedException {
 
         PointDao pointDao = new PointDao();
 
@@ -86,7 +86,7 @@ public class PointController {
 
     }
 
-    public static void PointAddSuccess(UserDTO userDTO) throws SQLException {
+    public static void PointAddSuccess(UserDTO userDTO) throws SQLException, InterruptedException {
         Scanner sc = new Scanner(System.in);
         System.out.println("==============================");
         System.out.println("           포인트 충전            ");
